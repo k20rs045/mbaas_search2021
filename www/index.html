@@ -17,11 +17,60 @@
 
     function fetchAll() {
       let TestDataClass = ncmb.DataStore(db);
-      TestDataClass.fetchAll()
+      TestDataClass.order("level",true).fetchAll()
         .then(function(results) {
           showResults(results);
         })
     }
+    
+    function searchName() {
+      let TestDataClass = ncmb.DataStore(db);
+      let input = $("#name").val();
+      TestDataClass.equalTo("name",input).fetchAll()
+        .then(function(results) {
+          showResults(results);
+        })
+    }
+
+      function searchLevelLT() {
+      let TestDataClass = ncmb.DataStore(db);
+      let input = parseInt($("#level").val());
+      TestDataClass.lessThan("level",input).fetchAll()
+        .then(function(results) {
+          showResults(results);
+        })
+      }
+
+    function searchLevel() {
+      let TestDataClass = ncmb.DataStore(db);
+      let input = parseInt($("#level").val());
+      TestDataClass.equalTo("level",input).fetchAll()
+        .then(function(results) {
+          showResults(results);
+        })
+    }
+
+     function searchLevelGT() {
+      let TestDataClass = ncmb.DataStore(db);
+      let input = parseInt($("#level").val());
+      TestDataClass.greaterThan("level",input).fetchAll()
+        .then(function(results) {
+          showResults(results);
+        })
+    }
+
+     function addMonster() {
+      let TestDataClass = ncmb.DataStore(db);
+      let nameM = $("#name").val();
+      let levelM = parseInt($("#level").val());
+      let attackM = parseInt($("#attack").val());
+      let defenceM = parseInt($("#defence").val());
+      var testClass = new TestDataClass();
+      testClass.set("name",nameM).set("level",levelM).set("attack",attackM).set("defence",defenceM);
+      testClass.save();
+
+    }
+
 
     function showResults(results) {
       // テーブルのヘッダを生成
@@ -52,8 +101,21 @@
     <label for="level">level:</label>
     <input id="level" type="number" placeholder="monster level">
   </div>
+  <div>
+    <label for="attack">attack:</label>
+    <input id="attack" type="number" placeholder="monster attack">
+  </div>
+  <div>
+    <label for="defence">defence:</label>
+    <input id="defence" type="number" placeholder="monster defence">
+  </div>
   <div id="button">
     <button class="btn" onclick="fetchAll()">Fetch All</button>
+    <button class="btn" onclick="searchName()">Name</button>
+    <br><button class="btn" onclick="searchLevelLT()">Level&lt</button>
+    <button class="btn" onclick="searchLevel()">Level</button>
+    <button class="btn" onclick="searchLevelGT()"> Level&gt </button>
+    <br><button class="btn" onclick="addMonster()">Add</button>
   </div>
   <div id="message">message area</div>
 </body>
